@@ -14,6 +14,7 @@ public class Building{
 		this.id = id;
 		this.direction = direction;
 		apartment = new Apartment[SIZE_OF_APARTMENTS];
+		owner = new Owner[SIZE_OF_OWNERS];
 
 	}
 
@@ -30,17 +31,53 @@ public class Building{
 		return msj;
 	}
 
-	public boolean veryifOwnerExist(String ownerId){
-		boolean ownerExist = false;
-		boolean sw = false;
-		for(int i = 0; i < SIZE_OF_OWNERS && !sw; i++){
-			if(owner[i] != null){
-				if(owner[i].getId().equalsIgnoreCase(ownerId)){
-				ownerExist = true;
+	public int verifyIfApartmentExist(String apartmentId){
+		int posApartment = -1;
+		boolean isFound = false;
+		for(int i = 0; i < SIZE_OF_APARTMENTS && !isFound; i++){
+			if(apartment[i] != null){
+				if(apartment[i].getId().equalsIgnoreCase(apartmentId)){
+					isFound = true;
+					posApartment = i;
 				}
 			}
+			
 		}
-		return ownerExist;
+		return posApartment;
+	}
+
+	public String addOwnerWithObject(Owner objectOwner){
+		String msj = "Maximun capacity reached";
+		for(int i = 0; i < SIZE_OF_OWNERS; i++){
+			if(owner[i] == null){
+				owner[i] = objectOwner;
+				msj = "The owner was added succesfully";
+			}
+		}
+		return msj;
+	}
+
+	//añadir un método que me busque el apartamento y setee su dueño
+	public void stablishOwnerForApartment(String apartmentId){
+		boolean sw = false;
+		for(int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
+			if(apartmentId.equalsIgnoreCase(apartment[i].getId())){
+				sw = true;
+				apartment[i].setOwner(1);
+			}
+		}
+	}
+
+	public int verifyOwnerFromApartment(String apartmentId){
+		int owner = -1;
+		boolean sw = false;
+		for(int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
+			if(apartmentId.equalsIgnoreCase(apartment[i].getId())){
+				sw = true;
+				owner = apartment[i].getOwner();
+			}
+		}
+		return owner;
 	}
 
 	public String getId(){

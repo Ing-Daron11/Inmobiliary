@@ -8,6 +8,7 @@ public class Apartment{
 	private int balcony;
 	private double cost;
 	private int tenant;
+	private int owner;
 
 	public Apartment(String id, int numRooms, int numBaths, int balcony, double cost, int tenant){
 		this.id = id;
@@ -16,6 +17,7 @@ public class Apartment{
 		this.balcony = balcony;
 		this.cost = cost;
 		this.tenant = tenant;
+		this.owner = -1; //It means that when an apartment is created it doesn't have an owner
 	}
 
 	public String getId(){
@@ -42,7 +44,15 @@ public class Apartment{
 		return this.tenant;
 	}
 
-	public int setTenant(int newTenant){
-		return this.tenant = newTenant;		
+	public void setTenant(int newTenant){
+		this.tenant = newTenant;		
+	}
+
+	public int getOwner(){
+		return this.owner;
+	}
+
+	public void setOwner(int newOwner){
+		this.owner = newOwner;
 	}
 }

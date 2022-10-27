@@ -7,6 +7,7 @@ public class Inmobiliary{
 
 	private Building[] building;
 	private Apartment apartment;
+	private Owner owner;
 
 	public Inmobiliary(){
 		building = new Building[SIZE_OF_BUILDINGS];
@@ -65,6 +66,38 @@ public class Inmobiliary{
 			isCorrect = true;
 		}
 		return isCorrect;
+	}
+
+	public boolean validateCorrectOption(int option){
+		boolean isCorrect = false;
+		if(option >= 0 && option <=4){
+			isCorrect = true;
+		}
+		return isCorrect;
+	}
+
+	public String callAddOwner(String buildingId, String apartmentId, String ownerId, String numDocument, String ownerName, String numPhone, int optionPhoneType, String numAccount, String bankName){
+		String msj = "";
+		Owner newOwner = new Owner(ownerId, numDocument, ownerName, numPhone, optionPhoneType, numAccount, bankName);
+		int posBuilding = searchBuildingById(buildingId);
+		msj = building[posBuilding].addOwnerWithObject(newOwner);
+		building[posBuilding].stablishOwnerForApartment(apartmentId); //This line stablish that the appartment now has an owner.
+		return msj;
+	}
+
+	public int callVerifyIfApartmentExist(String buildingId, String apartmentId){
+		int posApartment = -2;
+		int posBuilding = searchBuildingById(buildingId);
+		if(posBuilding != -1){
+			posApartment = building[posBuilding].verifyIfApartmentExist(apartmentId);
+		}
+		return posApartment;
+	}
+
+	public int verifyIfApartmentHasOwner(String buildingId, String apartmentId){
+		int posBuilding = searchBuildingById(buildingId);
+		int owner = building[posBuilding].verifyOwnerFromApartment(apartmentId);
+		return owner;
 	}
 
 }

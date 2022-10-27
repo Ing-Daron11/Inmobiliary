@@ -55,7 +55,7 @@ public class Main{
 				"<< --------------------------------------------------------------------- >>\n" +
 				"1. Add a building \n" +
 				"2. Add a apartment to specific building\n" + 
-				"3. \n" +
+				"3. Register an owner \n" +
 				"4.  \n" +
 				"5. \n" +
 				"6.  \n" +
@@ -76,6 +76,7 @@ public class Main{
 		int balcony=0;
 		int numRooms = 0;
 		int numBaths = 0;
+		int phoneType = 0;
 
 		switch(option){
 			case 1: //Add a building
@@ -167,7 +168,58 @@ public class Main{
 
 				break;
 
-			case 3:
+			case 3: //Register an owner
+				System.out.println("To register an owner it's necesary to have a apartment and a building, because an owner needs both to be registered");
+				System.out.print("Type the building id: ");
+				idBuilding = input.next();
+				if(inmobiliary.searchBuildingById(idBuilding) != -1){
+					System.out.print("Type the id of the apartment that the owner is going to buy: ");
+					apartmentId = input.next();
+					if(inmobiliary.callVerifyIfApartmentExist(idBuilding,apartmentId) != -1){
+						if(inmobiliary.verifyIfApartmentHasOwner(idBuilding,apartmentId) == -1){
+							System.out.print("Type the id of the owner: ");
+							String ownerId = input.next();
+							System.out.print("Type the document number of the owner: ");
+							String ownerNumDocument = input.next();
+							System.out.print("Type the owner's name: ");
+							String ownerName = input.next();
+							System.out.print("Type the owner's phone number: ");
+							String ownerNumPhone = input.next();
+							while(sw){
+								System.out.print("Type the phone type: \n"+
+												 "0. HOME \n" +
+												 "1. OFFICE \n" +
+												 "2. MOVIL \n"+
+												 "3. FAMILY \n"+
+												 "4. OTHER \n" );
+								while (!input.hasNextInt()){
+									input.next();
+									System.out.println("Enter a valid integer number ");
+								}
+								numPrueba = input.nextInt();
+								if(inmobiliary.validateCorrectOption(numPrueba)){
+									phoneType = numPrueba;
+									sw = false;
+								}else{
+									System.out.println("Type a correct option");
+								}
+							}
+							System.out.print("Type the account number of the owner: ");
+							String numAccount = input.next();
+							System.out.print("Type the owner's bank's name: ");
+							String bankName = input.next();
+
+							msj = inmobiliary.callAddOwner(idBuilding, apartmentId, ownerId, ownerNumDocument, ownerName, ownerNumPhone, phoneType, numAccount, bankName);
+							System.out.println(msj);
+						}else{
+							System.out.println("The aparment already has an owner");
+						}
+					}else{
+						System.out.println("The aparment doesn't exist");
+					}
+				}else{
+					System.out.println("The bulding doesn't exist");
+				}
 				
 				break;
 
