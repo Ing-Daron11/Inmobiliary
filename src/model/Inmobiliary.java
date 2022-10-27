@@ -8,6 +8,7 @@ public class Inmobiliary{
 	private Building[] building;
 	private Apartment apartment;
 	private Owner owner;
+	private Tenant tenant;
 
 	public Inmobiliary(){
 		building = new Building[SIZE_OF_BUILDINGS];
@@ -62,7 +63,7 @@ public class Inmobiliary{
 	
 	public boolean verifyCorrectOption(int option){
 		boolean isCorrect = false;
-		if(option >= 1 && option <=2){
+		if(option >= 0 && option <=1){
 			isCorrect = true;
 		}
 		return isCorrect;
@@ -85,6 +86,15 @@ public class Inmobiliary{
 		return msj;
 	}
 
+	public String callAddTenant(String buildingId, String apartmentId, String tenantId, String numDocument, String tenantName, String numPhone, int optionPhoneType){
+		String msj = "";
+		Tenant newTenant = new Tenant(tenantId, numDocument, tenantName, numPhone, optionPhoneType);
+		int posBuilding = searchBuildingById(buildingId);
+		msj = building[posBuilding].addTenantWithObject(newTenant);
+		building[posBuilding].stablishTenantForApartment(apartmentId); //This line stablish that the appartment now has a tenant.
+		return msj;
+	}
+
 	public int callVerifyIfApartmentExist(String buildingId, String apartmentId){
 		int posApartment = -2;
 		int posBuilding = searchBuildingById(buildingId);
@@ -98,6 +108,12 @@ public class Inmobiliary{
 		int posBuilding = searchBuildingById(buildingId);
 		int owner = building[posBuilding].verifyOwnerFromApartment(apartmentId);
 		return owner;
+	}
+
+	public int verifyIfApartmentHasTenant(String buildingId, String apartmentId){
+		int posBuilding = searchBuildingById(buildingId);
+		int tenant = building[posBuilding].verifyTenantFromApartment(apartmentId);
+		return tenant;
 	}
 
 }

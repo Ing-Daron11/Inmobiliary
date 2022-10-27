@@ -56,12 +56,7 @@ public class Main{
 				"1. Add a building \n" +
 				"2. Add a apartment to specific building\n" + 
 				"3. Register an owner \n" +
-				"4.  \n" +
-				"5. \n" +
-				"6.  \n" +
-				"7.  \n" +
-				"8.  \n" +
-				"9.  \n" +
+				"4. Register a tenant\n" +
 				"0. Exit.\n"; 
 	}
 
@@ -127,7 +122,7 @@ public class Main{
 				while(sw){
 					System.out.println("The apartment has balcony: \n" + 
 									 "(1) Yes\n" +
-									 "(2) No");
+									 "(0) No");
 					while (!input.hasNextInt()){
 						input.next();
 						System.out.println("Enter a valid integer number ");
@@ -150,7 +145,7 @@ public class Main{
 				while(sw2){
 					System.out.println("It has a tenent: \n" +
 									 "(1) Yes \n" +
-									 "(2) No ");
+									 "(0) No ");
 					while (!input.hasNextInt()){
 						input.next();
 						System.out.println("Enter a valid integer number ");
@@ -223,39 +218,53 @@ public class Main{
 				
 				break;
 
-			case 4: 
-
-				break;
-
-			case 5: 
-
-				break;
-
-			case 6: 
-				
-				break;
-
-			case 7: 
-
-				break;
-
-			case 8: 
-
-				break;
-
-			case 9: 
-
-				break;
-
-			case 10: 
-
-				break;
-
-			case 11: 
-
-				break;
-
-			case 12: 
+			case 4: //Register a tenant
+				System.out.println("To register a Tenant it's necesary to have an apartment and a building, because a tenant needs both to be registered");
+				System.out.print("Type the building id: ");
+				idBuilding = input.next();
+				if(inmobiliary.searchBuildingById(idBuilding) != -1){
+					System.out.print("Type the id of the apartment that tenant is going to be: ");
+					apartmentId = input.next();
+					if(inmobiliary.callVerifyIfApartmentExist(idBuilding,apartmentId) != -1){
+						if(inmobiliary.verifyIfApartmentHasTenant(idBuilding,apartmentId) == 0){
+							System.out.print("Type the id of the tenant: ");
+							String tenantId = input.next();
+							System.out.print("Type the document number of the tenant: ");
+							String tenantNumDocument = input.next();
+							System.out.print("Type the tenant's name: ");
+							String tenantName = input.next();
+							System.out.print("Type the tenant's phone number: ");
+							String tenantNumPhone = input.next();
+							while(sw){
+								System.out.print("Type the phone type: \n"+
+												 "0. HOME \n" +
+												 "1. OFFICE \n" +
+												 "2. MOVIL \n"+
+												 "3. FAMILY \n"+
+												 "4. OTHER \n" );
+								while (!input.hasNextInt()){
+									input.next();
+									System.out.println("Enter a valid integer number ");
+								}
+								numPrueba = input.nextInt();
+								if(inmobiliary.validateCorrectOption(numPrueba)){
+									phoneType = numPrueba;
+									sw = false;
+								}else{
+									System.out.println("Type a correct option");
+								}
+							}
+							msj = inmobiliary.callAddTenant(idBuilding, apartmentId, tenantId, tenantNumDocument, tenantName, tenantNumPhone, phoneType);
+							System.out.println(msj);
+						}else{
+							System.out.println("The aparment already has a tenant");
+						}
+					}else{
+						System.out.println("The aparment doesn't exist");
+					}
+				}else{
+					System.out.println("The bulding doesn't exist");
+				}
 
 				break;
 
