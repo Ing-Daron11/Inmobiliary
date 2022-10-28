@@ -3,15 +3,17 @@ package model;
 public class Inmobiliary{
 	
 	public static final int SIZE_OF_BUILDINGS = 5;
-
+	public static final int SIZE_OF_APARTMENTS = 50; //This is a temporary array that keeps the apartments to add to both the building and the owner.
 
 	private Building[] building;
+	public Apartment[] arrayApartments;
 	private Apartment apartment;
 	private Owner owner;
 	private Tenant tenant;
 
 	public Inmobiliary(){
 		building = new Building[SIZE_OF_BUILDINGS];
+		arrayApartments = new Apartment[SIZE_OF_APARTMENTS];
 	}
 
 	public String addBuilding(String id, String direction){
@@ -52,10 +54,18 @@ public class Inmobiliary{
 
 	public String addApartmentToBulding(String buildingId, String id, int numRooms, int numBaths, int balcony, double cost){
 		String msj = "The building doesn't exist";
+		boolean sw = false;
 		Apartment newApartment = new Apartment(id, numRooms,numBaths,balcony,cost);
 		int posBuilding = searchBuildingById(buildingId);
 		if (posBuilding != -1){
 			msj = building[posBuilding].addApartmentWithObject(newApartment);
+			for (int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){ //This add the new apartment to the tempory array
+				if(arrayApartments[i] == null){
+					arrayApartments[i] = newApartment;
+					sw = true;
+				}
+			}
+
 		}
 		return msj;
 	}
@@ -79,10 +89,19 @@ public class Inmobiliary{
 
 	public String callAddOwner(String buildingId, String apartmentId, String ownerId, String numDocument, String ownerName, String numPhone, int optionPhoneType, String numAccount, String bankName){
 		String msj = "";
+		boolean sw = false;
+		Apartment newApartment = new Apartment("0", 0, 0, 0, 0.0); //just initialize
 		Owner newOwner = new Owner(ownerId, numDocument, ownerName, numPhone, optionPhoneType, numAccount, bankName);
 		int posBuilding = searchBuildingById(buildingId);
 		msj = building[posBuilding].addOwnerWithObject(newOwner);
 		building[posBuilding].stablishOwnerForApartment(apartmentId); //This line stablish that the appartment now has an owner.
+		for(int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
+			if(apartmentId.equalsIgnoreCase(arrayApartments[i].getId())){
+				sw = true;
+				newApartment = arrayApartments[i]; //In this part I add the Apartment created from the tempory array to the variable
+			}
+		}
+		building[posBuilding].callAddApartmentWithObjectOwner(newApartment, ownerId);
 		return msj;
 	}
 
@@ -156,6 +175,17 @@ public class Inmobiliary{
 		}else{
 			return msj = "The building doesn't exist";
 		}
+	}
+
+	public String callAmountApartmentsRentedByOwner(String buildingId, String ownerId){
+		String msj = "";
+		int posBuilding = searchBuildingById(buildingId);
+		if(posBuilding != -1){
+			msj = building[posBuilding].amountApartmentsRentedByOwner(ownerId);
+		}else{
+			msj = "The building doesn't exist";
+		}
+		return msj;
 	}
 
 }

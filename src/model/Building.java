@@ -95,6 +95,11 @@ public class Building{
 		}
 	}
 
+	public void callAddApartmentWithObjectOwner(Apartment objectApartment, String ownerId){
+		int posOwner = searchOwnerById(ownerId);
+		owner[posOwner].addApartmentWithObjectOwner(objectApartment);
+		}
+
 	public int verifyOwnerFromApartment(String apartmentId){
 		int owner = -1;
 		boolean sw = false;
@@ -126,7 +131,7 @@ public class Building{
 		for(int i = 0; i < SIZE_OF_APARTMENTS; i++){
 			if(apartment[i] != null){
 				if(apartment[i].getTenant() == -1){
-					apartmentsAvailable += 1;
+					apartmentsAvailable ++;
 				}
 			}
 		}
@@ -147,6 +152,33 @@ public class Building{
 			}
 		}
 		return moneyRents;
+	}
+
+	public int searchOwnerById(String ownerId){
+		int posOwner = -1;
+		boolean isFound = false;
+		for(int i = 0; i < SIZE_OF_OWNERS && !isFound; i++){
+			if(owner[i] != null){
+				if(owner[i].getId().equalsIgnoreCase(ownerId)){
+					isFound = true;
+						posOwner = i;
+				}
+			}
+			
+		}
+		return posOwner;
+	}
+
+	public String amountApartmentsRentedByOwner(String ownerId){
+		String msj = "";
+		int numApartments = 0;
+		int posOwner = searchOwnerById(ownerId);
+		if(posOwner != -1){
+			numApartments = owner[posOwner].countApartmentsRented();
+			return msj = "The amount of rented apartments that the owner '" + owner[posOwner].getName() + "' has is/are: " + numApartments;
+		}else{
+			return msj = "The owner doesn't exist"; 
+		}
 	}
 
 	public String getId(){

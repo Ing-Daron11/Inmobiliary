@@ -281,7 +281,12 @@ public class Main{
 
 				break;
 			case 8: //Consult how many rented apartments an owner has
-
+				System.out.print("Type the id of the building: ");
+				idBuilding = input.next();
+				System.out.print("Type the id of the owner: ");
+				String ownerId = input.next();
+				msj = inmobiliary.callAmountApartmentsRentedByOwner(idBuilding, ownerId);
+				System.out.println(msj);
 				break;
 				
 			case 9: // Consult how much money an owner recives from his rented apartments

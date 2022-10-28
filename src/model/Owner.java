@@ -16,17 +16,26 @@ public class Owner extends User{
 
 	}
 
-	public String addApartmentWithObjectOwner(Apartment objectApartment){
-		String msj = "The owner has owned all the apartments available";
+	public void addApartmentWithObjectOwner(Apartment objectApartment){
 		boolean sw = false;
 		for (int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
 			if(apartment[i] == null){
 				apartment[i] = objectApartment;
 				sw = true;
-				msj = "The apartment was added succesfully";
 			}
 		}
-		return msj;
+	}
+
+	public int countApartmentsRented(){
+		int numApartments = 0;
+		for(int i = 0; i < SIZE_OF_APARTMENTS; i++){
+			if(apartment[i] != null){
+				if(apartment[i].getTenant() != -1){
+					numApartments ++;
+				}
+			}
+		}
+		return numApartments;
 	}
 
 	public String getNumAccount(){
