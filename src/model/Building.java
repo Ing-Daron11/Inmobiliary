@@ -131,6 +131,22 @@ public class Building{
 		return apartmentsAvailable;
 	}
 
+	public int countRents(){
+		int moneyRents = 0;
+		for(int i = 0; i < SIZE_OF_APARTMENTS; i++){
+			if(apartment[i] != null){
+				if(apartment[i].getTenant() != -1){ //First we validate if it has a tenant
+					if(apartment[i].getOwner() != -1){//Now we validate if it has an Owner, if so, we calculate the 10% that correspond to the inmobiliary
+						moneyRents += apartment[i].getCost() * 0.1;
+					}else{ //If the apartment doesn't have owner, so all the rent is for the inmobiliary
+						moneyRents += apartment[i].getCost();
+					}
+				}
+			}
+		}
+		return moneyRents;
+	}
+
 	public String getId(){
 		return this.id;
 	}

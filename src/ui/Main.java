@@ -58,7 +58,7 @@ public class Main{
 				"3. Register an owner \n" +
 				"4. Register a tenant\n" +
 				"5. Show how many apartments are available by building\n" +
-				"6. \n" +
+				"6. Show amount of money of the rents by building\n" +
 				"7. \n" +
 				"8. \n" +
 				"9. \n" +
@@ -264,7 +264,11 @@ public class Main{
 				System.out.println(msj);
 				break;
 
-			case 6:
+			case 6: //Show amount of money of the rents by building
+				System.out.print("Type the id of the building: ");
+				idBuilding = input.next();
+				msj = inmobiliary.countRentsByBuilding(idBuilding);
+				System.out.println(msj);
 
 				break;
 			case 7:

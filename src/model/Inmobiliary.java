@@ -117,11 +117,22 @@ public class Inmobiliary{
 	}
 
 	public String availableApartmentByBuilding(String buildingId){
-		String msj = "There's no apartments in this building";
+		String msj = "";
 		int posBuilding = searchBuildingById(buildingId);
 		if(posBuilding != -1){
 			int apartmentsAvailable = building[posBuilding].searchAvailableApartment();
 			return msj = "The amount of apartments avaible in the building '" + building[posBuilding].getId() + "' is/are: "+ apartmentsAvailable;
+		}else{
+			return msj = "The building doesn't exist";
+		}
+	}
+
+	public String countRentsByBuilding(String buildingId){
+		String msj = "";
+		int posBuilding = searchBuildingById(buildingId);
+		if(posBuilding != -1){
+			int moneyRents = building[posBuilding].countRents();
+			return msj = "the amount of money of this building's rents are: $" + moneyRents + " bucks";
 		}else{
 			return msj = "The building doesn't exist";
 		}
