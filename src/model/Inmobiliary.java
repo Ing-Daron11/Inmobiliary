@@ -16,7 +16,7 @@ public class Inmobiliary{
 
 	public String addBuilding(String id, String direction){
 		Building newBuilding = new Building(id, direction);
-		String msj = "Maximun capacity reached";
+		String msj = "Maximun buildings. Capacity reached";
 		boolean sw = false;
 		for (int i = 0; i < SIZE_OF_BUILDINGS && !sw ;i++){
 			if(building[i] == null){
@@ -50,9 +50,9 @@ public class Inmobiliary{
 		return posBuilding;
 	}
 
-	public String addApartmentToBulding(String buildingId, String id, int numRooms, int numBaths, int balcony, double cost, int tenant){
+	public String addApartmentToBulding(String buildingId, String id, int numRooms, int numBaths, int balcony, double cost){
 		String msj = "The building doesn't exist";
-		Apartment newApartment = new Apartment(id, numRooms,numBaths,balcony,cost, tenant);
+		Apartment newApartment = new Apartment(id, numRooms,numBaths,balcony,cost);
 		int posBuilding = searchBuildingById(buildingId);
 		if (posBuilding != -1){
 			msj = building[posBuilding].addApartmentWithObject(newApartment);
@@ -114,6 +114,17 @@ public class Inmobiliary{
 		int posBuilding = searchBuildingById(buildingId);
 		int tenant = building[posBuilding].verifyTenantFromApartment(apartmentId);
 		return tenant;
+	}
+
+	public String availableApartmentByBuilding(String buildingId){
+		String msj = "There's no apartments in this building";
+		int posBuilding = searchBuildingById(buildingId);
+		if(posBuilding != -1){
+			int apartmentsAvailable = building[posBuilding].searchAvailableApartment();
+			return msj = "The amount of apartments avaible in the building '" + building[posBuilding].getId() + "' is/are: "+ apartmentsAvailable;
+		}else{
+			return msj = "The building doesn't exist";
+		}
 	}
 
 }

@@ -57,6 +57,11 @@ public class Main{
 				"2. Add a apartment to specific building\n" + 
 				"3. Register an owner \n" +
 				"4. Register a tenant\n" +
+				"5. Show how many apartments are available by building\n" +
+				"6. \n" +
+				"7. \n" +
+				"8. \n" +
+				"9. \n" +
 				"0. Exit.\n"; 
 	}
 
@@ -72,6 +77,7 @@ public class Main{
 		int numRooms = 0;
 		int numBaths = 0;
 		int phoneType = 0;
+		String apartmentId = "";
 
 		switch(option){
 			case 1: //Add a building
@@ -81,86 +87,71 @@ public class Main{
 				String directionBulding = input.next();
 				msj = inmobiliary.addBuilding(idBuilding, directionBulding);
 				System.out.println(msj);
-
 				break;
 
 			case 2: //Add apartment to a bulding
-				System.out.print("Type the id of the bulding where is going to be added the apartment: ");
+				System.out.print("Type the id of the bulding where is going to be added the apartment: "); ///////////
 				idBuilding = input.next();
-				System.out.print("Type the id of the apartment: ");
-				String apartmentId = input.next();
-				while (sw3){
-					System.out.print("Type the number of rooms of the apartment: ");
-					while (!input.hasNextInt()){
+				if(inmobiliary.searchBuildingById(idBuilding) != -1){
+					System.out.print("Type the id of the apartment: ");
+					apartmentId = input.next();
+					while (sw3){
+						System.out.print("Type the number of rooms of the apartment: ");
+						while (!input.hasNextInt()){
+							input.next();
+							System.out.println("Enter a valid integer number ");
+						}
+						numPrueba = input.nextInt();
+						if(inmobiliary.validateIfPositive(numPrueba)){
+						numRooms = numPrueba;
+						sw3 = false;
+						}else{
+							System.out.println("Type a positive number");
+						}
+					}
+					while(sw4){
+						System.out.print("Type the number of baths of the aparment: ");
+						while (!input.hasNextInt()){
+							input.next();
+							System.out.println("Enter a valid integer number ");
+						}
+						numPrueba = input.nextInt();
+						if(inmobiliary.validateIfPositive(numPrueba)){
+							numBaths = numPrueba;
+							sw4 = false;
+						}else{
+							System.out.println("Type a positive number");
+						}
+					}
+					while(sw){
+						System.out.println("The apartment has balcony: \n" + 
+										 "(1) Yes\n" +
+										 "(0) No");
+						while (!input.hasNextInt()){
+							input.next();
+							System.out.println("Enter a valid integer number ");
+						}
+						numPrueba = input.nextInt();
+						if(inmobiliary.verifyCorrectOption(numPrueba)){
+							balcony = numPrueba;
+							sw = false;
+						}else{
+							System.out.println("Type a correct option");
+						}
+					}
+					System.out.print("Type the cost of the rent: ");
+					while (!input.hasNextDouble()){
 						input.next();
-						System.out.println("Enter a valid integer number ");
+						System.out.println("Enter a valid double number ");
 					}
-					numPrueba = input.nextInt();
-					if(inmobiliary.validateIfPositive(numPrueba)){
-					numRooms = numPrueba;
-					sw3 = false;
-					}else{
-						System.out.println("Type a positive number");
-					}
-				}
-				
-				while(sw4){
-					System.out.print("Type the number of baths of the aparment: ");
-					while (!input.hasNextInt()){
-						input.next();
-						System.out.println("Enter a valid integer number ");
-					}
-					numPrueba = input.nextInt();
-					if(inmobiliary.validateIfPositive(numPrueba)){
-						numBaths = numPrueba;
-						sw4 = false;
-					}else{
-						System.out.println("Type a positive number");
-					}
-				}
-				
-				while(sw){
-					System.out.println("The apartment has balcony: \n" + 
-									 "(1) Yes\n" +
-									 "(0) No");
-					while (!input.hasNextInt()){
-						input.next();
-						System.out.println("Enter a valid integer number ");
-					}
-					numPrueba = input.nextInt();
-					if(inmobiliary.verifyCorrectOption(numPrueba)){
-						balcony = numPrueba;
-						sw = false;
-					}else{
-						System.out.println("Type a correct option");
-					}
-				}
-				
-				System.out.print("Type the cost of the rent: ");
-				while (!input.hasNextDouble()){
-					input.next();
-					System.out.println("Enter a valid double number ");
-				}
-				double cost = input.nextDouble();
-				while(sw2){
-					System.out.println("It has a tenent: \n" +
-									 "(1) Yes \n" +
-									 "(0) No ");
-					while (!input.hasNextInt()){
-						input.next();
-						System.out.println("Enter a valid integer number ");
-					}
-					numPrueba = input.nextInt();
-					if(inmobiliary.verifyCorrectOption(numPrueba)){
-						tenant = numPrueba;
-						sw2= false;
-					}else{
-						System.out.println("Type a correct option");
-					}
-				}
-				msj = inmobiliary.addApartmentToBulding(idBuilding, apartmentId, numRooms, numBaths, balcony, cost, tenant);
-				System.out.println(msj);
+					double cost = input.nextDouble();
+					msj = inmobiliary.addApartmentToBulding(idBuilding, apartmentId, numRooms, numBaths, balcony, cost);
+					System.out.println(msj);
 
+				}else{
+					System.out.println("The building doesn't exist");
+				}
+				
 				break;
 
 			case 3: //Register an owner
@@ -215,7 +206,6 @@ public class Main{
 				}else{
 					System.out.println("The bulding doesn't exist");
 				}
-				
 				break;
 
 			case 4: //Register a tenant
@@ -226,7 +216,7 @@ public class Main{
 					System.out.print("Type the id of the apartment that tenant is going to be: ");
 					apartmentId = input.next();
 					if(inmobiliary.callVerifyIfApartmentExist(idBuilding,apartmentId) != -1){
-						if(inmobiliary.verifyIfApartmentHasTenant(idBuilding,apartmentId) == 0){
+						if(inmobiliary.verifyIfApartmentHasTenant(idBuilding,apartmentId) == -1){
 							System.out.print("Type the id of the tenant: ");
 							String tenantId = input.next();
 							System.out.print("Type the document number of the tenant: ");
@@ -265,6 +255,25 @@ public class Main{
 				}else{
 					System.out.println("The bulding doesn't exist");
 				}
+				break;
+
+			case 5: //Show how many apartments are available by building
+				System.out.print("Type the id of the building:");
+				idBuilding = input.next();
+				msj = inmobiliary.availableApartmentByBuilding(idBuilding);
+				System.out.println(msj);
+				break;
+
+			case 6:
+
+				break;
+			case 7:
+
+				break;
+			case 8:
+
+				break;
+			case 9:
 
 				break;
 

@@ -22,7 +22,7 @@ public class Building{
 	}
 
 	public String addApartmentWithObject(Apartment objectApartment){
-		String msj = "Maximun capacity reached";
+		String msj = "Maximun apartments. Capacity reached";
 		boolean sw = false;
 		for (int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
 			if(apartment[i] == null){
@@ -51,8 +51,10 @@ public class Building{
 
 	public String addOwnerWithObject(Owner objectOwner){
 		String msj = "Maximun capacity reached";
-		for(int i = 0; i < SIZE_OF_OWNERS; i++){
+		boolean sw = false;
+		for(int i = 0; i < SIZE_OF_OWNERS && !sw; i++){
 			if(owner[i] == null){
+				sw = true;
 				owner[i] = objectOwner;
 				msj = "The owner was added succesfully";
 			}
@@ -62,8 +64,10 @@ public class Building{
 
 	public String addTenantWithObject(Tenant objectTenant){
 		String msj = "Maximun capacity reached";
-		for(int i = 0; i < SIZE_OF_TENANTS; i++){
+		boolean sw = false;
+		for(int i = 0; i < SIZE_OF_TENANTS && !sw; i++){
 			if(tenant[i] == null){
+				sw = true;
 				tenant[i] = objectTenant;
 				msj = "The tenant was added succesfully";
 			}
@@ -76,7 +80,7 @@ public class Building{
 		for(int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
 			if(apartmentId.equalsIgnoreCase(apartment[i].getId())){
 				sw = true;
-				apartment[i].setOwner(1);
+				apartment[i].setOwner(1); //It means it has an owner
 			}
 		}
 	}
@@ -113,6 +117,18 @@ public class Building{
 			}
 		}
 		return tenant;
+	}
+
+	public int searchAvailableApartment(){
+		int apartmentsAvailable = 0;
+		for(int i = 0; i < SIZE_OF_APARTMENTS; i++){
+			if(apartment[i] != null){
+				if(apartment[i].getTenant() == -1){
+					apartmentsAvailable += 1;
+				}
+			}
+		}
+		return apartmentsAvailable;
 	}
 
 	public String getId(){

@@ -10,13 +10,13 @@ public class Apartment{
 	private int tenant;
 	private int owner;
 
-	public Apartment(String id, int numRooms, int numBaths, int balcony, double cost, int tenant){
+	public Apartment(String id, int numRooms, int numBaths, int balcony, double cost){
 		this.id = id;
 		this.numRooms = numRooms;
 		this.numBaths = numBaths;
 		this.balcony = balcony;
 		this.cost = cost;
-		this.tenant = tenant;
+		this.tenant = -1; //It means that when an apartment is created it doesn't have a tenant
 		this.owner = -1; //It means that when an apartment is created it doesn't have an owner
 	}
 
