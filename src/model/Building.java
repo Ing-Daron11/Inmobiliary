@@ -111,9 +111,11 @@ public class Building{
 		int tenant = -1;
 		boolean sw = false;
 		for(int i = 0; i < SIZE_OF_APARTMENTS && !sw; i++){
-			if(apartmentId.equalsIgnoreCase(apartment[i].getId())){
-				sw = true;
-				tenant = apartment[i].getTenant();
+			if(apartment[i] != null){
+				if(apartmentId.equalsIgnoreCase(apartment[i].getId())){
+					sw = true;
+					tenant = apartment[i].getTenant();
+				}
 			}
 		}
 		return tenant;

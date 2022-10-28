@@ -138,4 +138,24 @@ public class Inmobiliary{
 		}
 	}
 
+	public String callVerifyTenantFromApartment(String buildingId, String apartmentId){
+		String msj = "";
+		int posBuilding = searchBuildingById(buildingId);
+		if(posBuilding != -1){
+			int veryApartment = building[posBuilding].verifyIfApartmentExist(apartmentId);
+			if(veryApartment != -1){ //If it's different from -1, it means that the apartment exists.
+				int tenant = building[posBuilding].verifyTenantFromApartment(apartmentId);//if the apartment has a tenant, it means that is already occuped, if not, so it's free.
+				if(tenant == -1){ //it's free.
+					return msj = "The apartment '" + apartmentId + "' is available"; 
+				}else{
+					return msj = "The apartment '" + apartmentId + "' is already occuped. I´m sorry";
+				}
+			}else{
+				return msj = "The apartment doesn't exist";
+			}
+		}else{
+			return msj = "The building doesn't exist";
+		}
+	}
+
 }

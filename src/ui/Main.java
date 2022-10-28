@@ -59,9 +59,9 @@ public class Main{
 				"4. Register a tenant\n" +
 				"5. Show how many apartments are available by building\n" +
 				"6. Show amount of money of the rents by building\n" +
-				"7. \n" +
-				"8. \n" +
-				"9. \n" +
+				"7. Verify if an apartment is available\n" +
+				"8. Consult how many rented apartments an owner has\n" +
+				"9. Consult how much money an owner recives from his rented apartments\n" +
 				"0. Exit.\n"; 
 	}
 
@@ -271,13 +271,20 @@ public class Main{
 				System.out.println(msj);
 
 				break;
-			case 7:
+			case 7: //Verify if an apartment is available
+				System.out.print("Type the id of the building: ");
+				idBuilding = input.next();
+				System.out.print("Type the id of the apartment: ");
+				apartmentId = input.next();
+				msj = inmobiliary.callVerifyTenantFromApartment(idBuilding, apartmentId);
+				System.out.println(msj);
 
 				break;
-			case 8:
+			case 8: //Consult how many rented apartments an owner has
 
 				break;
-			case 9:
+				
+			case 9: // Consult how much money an owner recives from his rented apartments
 
 				break;
 
